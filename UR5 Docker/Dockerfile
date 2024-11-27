@@ -15,9 +15,6 @@ RUN apt update && \
     ros-noetic-turtlebot3-teleop ros-noetic-urdf ros-noetic-voxel-grid ros-noetic-xacro \
     ros-noetic-rosdoc-lite ros-noetic-gmapping ros-noetic-rqt* ros-noetic-gazebo-ros ros-noetic-gazebo-plugins* \
     ros-noetic-pid ros-noetic-universal-robots ros-noetic-rqt-joint-trajectory-controller ros-noetic-ur-robot-driver ros-noetic-ur-calibration ros-noetic-turtlebot3-simulations --no-install-recommends\
-    ros-noetic-controller-manager ros-noetic-moveit ros-noetic-moveit-visual-tools ros-noetic-gazebo-ros-control ros-noetic-ros-controllers \
-    --no-install-recommends \
-    ros-noetic-mir-robot \
     && rm -rf /var/lib/apt/lists/
 RUN pip3 install jupyter 
 ENV USERNAME fhtw_user
