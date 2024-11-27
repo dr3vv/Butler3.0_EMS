@@ -6,10 +6,9 @@ services:
       context: ./MiR100/
       dockerfile: Dockerfile-noetic
     privileged: true
-    command: bash -c "
-      export ROS_MASTER_URI=http://localhost:11311
-      roslaunch mir_gazebo mir_empty_world.launch
-    "
+    command: >
+      sh -c "export ROS_MASTER_URI=http://localhost:11311 &&
+            roslaunch mir_gazebo mir_empty_world.launch"
     network_mode: "host"
 
   ur5:
