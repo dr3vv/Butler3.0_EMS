@@ -23,7 +23,7 @@ services:
   realsense:
     image: butler/realsense
     build:
-      context: ./
+      context: ./realsense
       dockerfile: Dockerfile.realsense
     privileged: true     # würde container alles geben (nicht optimal)
 #    devices:       
