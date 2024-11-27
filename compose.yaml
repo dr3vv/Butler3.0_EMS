@@ -1,0 +1,30 @@
+services:
+
+  mir100:
+    image: butler/mir100
+    build:
+      context: ./MiR100/
+      dockerfile: Dockerfile-noetic
+    privileged: true
+    command: roslaunch mir_gazebo mir_empty_world.launch
+    network_mode: "host"
+
+  ur5:
+    image: butler/ur5
+    build:
+      context: ./UR5 Docker/
+      dockerfile: Dockerfile
+    privileged: true
+    command: roslaunch ur_gazebo ur5_bringup.launch
+    network_mode: "host"
+
+  realsense:
+    image: butler/realsense
+    build:
+      context: ./
+      dockerfile: Dockerfile.realsense
+    privileged: true     # würde container alles geben (nicht optimal)
+#    devices:       
+#      - "/dev/bus:/dev/bus"   # gibt ordner mit usb geräten an containern weiter
+    command: roslaunch realsense2_camera rs_camera.launch --wait
+    network_mode: host
