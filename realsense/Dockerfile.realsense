@@ -1,0 +1,17 @@
+# Base image: ROS Noetic
+FROM ros:noetic-ros-base
+
+# Update the system and install dependencies
+RUN apt-get update && apt-get install -y \
+    ros-noetic-rviz \
+    ros-noetic-roslaunch \
+    libusb-1.0-0 \
+    ros-noetic-cv-bridge \
+    ros-noetic-realsense2-camera \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build the workspace
+RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
+
+# Default command
+CMD ["bash"]
