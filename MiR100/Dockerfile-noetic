@@ -96,9 +96,9 @@ RUN pip3 install jupyterlab
 RUN pip3 install --upgrade jupyter_core jupyter_client
 RUN pip3 install matplotlib numpy scikit-learn
 
-##RUN pip3 uninstall websocket
-##RUN sudo pip3 uninstall websocket-client
-##RUN sudo pip3 install websocket-client==0.49.0
+RUN pip3 uninstall -y websocket
+RUN sudo pip3 uninstall -y websocket-client
+RUN sudo pip3 install websocket-client==0.49.0
 
 RUN su ${USERNAME} -c "echo 'if [ -z \"\$TMUX\" ] && [ \"\$TERM_PROGRAM\" != \"vscode\" ] && [ -z \"\$SESSION_MANAGER\" ]; then tmux attach -t default || tmux new -s default; fi' >> /home/${USERNAME}/.bashrc"
 
