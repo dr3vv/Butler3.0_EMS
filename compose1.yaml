@@ -3,22 +3,25 @@ services:
   mir100:
     image: butler/mir100
     build:
-      context: ./MiR100/
-      dockerfile: Dockerfile-noetic
-    privileged: true
-    command: >
-      sh -c "export ROS_MASTER_URI=http://localhost:11311 &&
-            roslaunch mir_gazebo mir_empty_world.launch"
-    network_mode: "host"
-
-  ur5:
-    image: butler/ur5
-    build:
-      context: ./UR5 Docker/
+      context: ./MiR100/Docker-ROS/
       dockerfile: Dockerfile
     privileged: true
-    command: roslaunch ur_gazebo ur5_bringup.launch
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    command: >
+      sh -c "export ROS_MASTER_URI=http://localhost:11311 &&
+            roscore"
     network_mode: "host"
+
+      #  ur5:
+      # image: butler/ur5
+      #build:
+      #context: ./UR5 Docker/
+      #dockerfile: Dockerfile
+      #privileged: true
+      #command: roslaunch ur_gazebo ur5_bringup.launch
+      #network_mode: "host"
 
   realsense:
     image: butler/realsense
@@ -30,3 +33,4 @@ services:
 #      - "/dev/bus:/dev/bus"   # gibt ordner mit usb geräten an containern weiter
     command: roslaunch realsense2_camera rs_camera.launch --wait
     network_mode: host
+
