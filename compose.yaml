@@ -8,7 +8,7 @@ services:
     privileged: true
     command: >
       sh -c "export ROS_MASTER_URI=http://localhost:11311 &&
-            roslaunch mir_gazebo mir_empty_world.launch"
+            roslaunch mir_driver mir.launch"
     network_mode: "host"
 
   ur5:
@@ -17,7 +17,9 @@ services:
       context: ./UR5 Docker/
       dockerfile: Dockerfile
     privileged: true
-    command: roslaunch ur_gazebo ur5_bringup.launch
+    tty: true
+    stdin_open: true
+    command: sh
     network_mode: "host"
 
   realsense:
