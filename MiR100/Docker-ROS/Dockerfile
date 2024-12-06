@@ -16,8 +16,8 @@ RUN apt-get update && \
     ros-noetic-rosdoc-lite ros-noetic-gmapping ros-noetic-rqt* ros-noetic-gazebo-ros ros-noetic-gazebo-plugins* \
     ros-noetic-pid ros-noetic-turtlebot3-simulations \
     ros-noetic-controller-manager ros-noetic-moveit ros-noetic-moveit-visual-tools ros-noetic-gazebo-ros-control ros-noetic-ros-controllers \
-    --no-install-recommends \
     ros-noetic-mir-robot \
+    --no-install-recommends \
     && rm -rf /var/lib/apt/lists/
 ENV USERNAME fhtw_user
 ARG USER_ID=1000
@@ -63,29 +63,29 @@ RUN sudo apt-get update && sudo apt-get install -y checkinstall python-dev pytho
     libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev \
     libeigen3-dev libglfw3 libglfw3-dev
 
-RUN cd /tmp && git clone https://github.com/opencv/opencv.git  && git clone https://github.com/opencv/opencv_contrib.git && \
-    cd opencv && git fetch -a && git checkout 3.4.13 && mkdir build && cd ../opencv_contrib &&  git fetch -a && git checkout 3.4.13 && cd ../opencv/build && \
-    cmake -D CMAKE_BUILD_TYPE=RELEASE\
-        -D CMAKE_INSTALL_PREFIX=/usr/local\
-        -D OPENCV_ENABLE_NONFREE:BOOL=ON\
-        -D OPENCV_EXTRA_MODULES_PATH="/tmp/opencv_contrib/modules" \
-        -D BUILD_opencv_aruco=OFF -D BUILD_opencv_python2=OFF\
-        -D WITH_IPP=ON -D WITH_TBB=ON\
-        -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=OFF\
-        -D BUILD_opencv_cudacodec=OFF\
-        -D BUILD_opencv_python=OFF \
-        -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF\
-        -D WITH_QT=ON -D WITH_OPENGL=ON -D WITH_OPENCL=ON -D WITH_GSTREAMER=ON .. && \
-    cores=$(grep -c processor < /proc/cpuinfo) && if [ "$cores" -gt "1" ]; then cores=$((cores-1)); fi && \
-    make -j"$cores" && \
-    sudo checkinstall -y --pkgname "opencv3.4.13" && \
-    sudo apt-get install -f && \
-    sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf' && \
-    sudo ldconfig && \
-    make clean && \
-    pkgPrefix=$(grep -E "^prefix" < /usr/local/lib/pkgconfig/opencv.pc | tr '=' ' ' | awk '{print $2}') && \
-    if [ -d "$pkgPrefix/share/OpenCV/3rdparty/lib" ]; then sudo sed -i -e 's/-L${exec_prefix}\/lib/& -L${exec_prefix}\/share\/OpenCV\/3rdparty\/lib/g' /usr/local/lib/pkgconfig/opencv.pc; fi && \
-    echo "OpenCV 3.4.13 Installed"
+#RUN cd /tmp && git clone https://github.com/opencv/opencv.git  && git clone https://github.com/opencv/opencv_contrib.git && \
+#    cd opencv && git fetch -a && git checkout 3.4.13 && mkdir build && cd ../opencv_contrib &&  git fetch -a && git checkout 3.4.13 && cd ../opencv/build && \
+#    cmake -D CMAKE_BUILD_TYPE=RELEASE\
+#        -D CMAKE_INSTALL_PREFIX=/usr/local\
+#        -D OPENCV_ENABLE_NONFREE:BOOL=ON\
+#        -D OPENCV_EXTRA_MODULES_PATH="/tmp/opencv_contrib/modules" \
+#        -D BUILD_opencv_aruco=OFF -D BUILD_opencv_python2=OFF\
+#        -D WITH_IPP=ON -D WITH_TBB=ON\
+#        -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=OFF\
+#        -D BUILD_opencv_cudacodec=OFF\
+#        -D BUILD_opencv_python=OFF \
+#        -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF\
+#        -D WITH_QT=ON -D WITH_OPENGL=ON -D WITH_OPENCL=ON -D WITH_GSTREAMER=ON .. && \
+#    cores=$(grep -c processor < /proc/cpuinfo) && if [ "$cores" -gt "1" ]; then cores=$((cores-1)); fi && \
+#    make -j"$cores" && \
+#    sudo checkinstall -y --pkgname "opencv3.4.13" && \
+#    sudo apt-get install -f && \
+#    sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf' && \
+#    sudo ldconfig && \
+#    make clean && \
+#    pkgPrefix=$(grep -E "^prefix" < /usr/local/lib/pkgconfig/opencv.pc | tr '=' ' ' | awk '{print $2}') && \
+#    if [ -d "$pkgPrefix/share/OpenCV/3rdparty/lib" ]; then sudo sed -i -e 's/-L${exec_prefix}\/lib/& -L${exec_prefix}\/share\/OpenCV\/3rdparty\/lib/g' /usr/local/lib/pkgconfig/opencv.pc; fi && \
+#    echo "OpenCV 3.4.13 Installed"
 
 
 COPY ./docker_install /home/$USERNAME/docker_install
@@ -96,7 +96,7 @@ RUN pip3 install jupyterlab
 RUN pip3 install --upgrade jupyter_core jupyter_client
 RUN pip3 install matplotlib numpy scikit-learn
 
-RUN pip3 uninstall -y websocket
+RUN sudo pip3 uninstall -y websocket
 RUN sudo pip3 uninstall -y websocket-client
 RUN sudo pip3 install websocket-client==0.49.0
 
