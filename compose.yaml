@@ -12,6 +12,8 @@ services:
     command: >
       sh -c "export ROS_MASTER_URI=http://localhost:11311 &&
             roscore"
+    network_mode: "host"
+    
   ur5:
     image: butler/ur5
     build:
